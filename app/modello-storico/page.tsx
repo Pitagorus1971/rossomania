@@ -140,22 +140,23 @@ export default function SchedaTestarossa() {
         .subnav a:hover,.subnav a.active{color:#fff;border-bottom-color:var(--rosso);}
 
         /* PAGE HEAD — variante hero scura, come testata di scheda editoriale */
-        .scheda-hero{position:relative;min-height:64vh;display:flex;align-items:flex-end;color:#fff;overflow:hidden;background:var(--ink);}
-        .scheda-hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
-        .scheda-veil{position:absolute;inset:0;background:linear-gradient(180deg,rgba(12,14,18,.35) 0%,rgba(12,14,18,.55) 55%,rgba(12,14,18,.95) 100%);}
-        .scheda-hero-content{position:relative;z-index:2;padding:140px 0 52px;width:100%;}
-        .crumbs{display:flex;align-items:center;gap:8px;font-size:13.5px;color:rgba(250,248,244,.7);margin-bottom:20px;flex-wrap:wrap;}
+        .scheda-hero{position:relative;min-height:52vh;display:flex;align-items:flex-end;color:#fff;overflow:hidden;background:var(--ink);}
+        .scheda-hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 40%;}
+        .scheda-veil{position:absolute;inset:0;background:linear-gradient(180deg,rgba(12,14,18,.28) 0%,rgba(12,14,18,.5) 48%,rgba(12,14,18,.96) 100%);}
+        .scheda-hero-content{position:relative;z-index:2;padding:110px 0 38px;width:100%;}
+        .crumbs{display:flex;align-items:center;gap:8px;font-size:13px;color:rgba(250,248,244,.65);margin-bottom:14px;flex-wrap:wrap;}
         .crumbs a:hover{color:var(--rosso);}
         .crumbs svg{opacity:.5;}
-        .scheda-kicker{display:flex;align-items:center;gap:14px;margin-bottom:18px;font-size:13px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#fff;}
-        .scheda-kicker::before{content:'';width:38px;height:1.5px;background:var(--rosso);}
-        h1.scheda-title{font-family:var(--display);font-size:clamp(46px,7vw,92px);font-weight:500;letter-spacing:-.02em;line-height:.98;margin-bottom:18px;}
+        .scheda-kicker{display:flex;align-items:center;gap:12px;margin-bottom:12px;font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#fff;}
+        .scheda-kicker::before{content:'';width:28px;height:1.5px;background:var(--rosso);}
+        h1.scheda-title{font-family:var(--display);font-size:clamp(38px,6.5vw,86px);font-weight:500;letter-spacing:-.02em;line-height:.98;margin-bottom:12px;}
         h1.scheda-title em{font-style:italic;color:var(--rosso);}
-        .scheda-sub{max-width:600px;font-size:17px;color:rgba(250,248,244,.85);font-weight:300;line-height:1.6;margin-bottom:34px;}
-        .hero-meta{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;border-top:1px solid rgba(255,255,255,.18);padding-top:24px;max-width:880px;}
-        .hero-meta div{display:flex;flex-direction:column;gap:6px;}
-        .hero-meta small{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(250,248,244,.5);}
-        .hero-meta b{font-family:var(--display);font-size:16.5px;font-weight:600;}
+        .scheda-sub{max-width:560px;font-size:16px;color:rgba(250,248,244,.82);font-weight:300;line-height:1.55;margin-bottom:22px;}
+        /* Solo Produzione e Categoria — max 2 colonne, più compatto */
+        .hero-meta{display:grid;grid-template-columns:repeat(2,1fr);gap:14px 28px;border-top:1px solid rgba(255,255,255,.18);padding-top:16px;max-width:360px;}
+        .hero-meta div{display:flex;flex-direction:column;gap:4px;}
+        .hero-meta small{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(250,248,244,.5);}
+        .hero-meta b{font-family:var(--display);font-size:15px;font-weight:600;}
 
         /* BODY LAYOUT */
         .listing-body{padding:54px 0 30px;}
@@ -311,8 +312,11 @@ export default function SchedaTestarossa() {
         @media(max-width:640px){
           .wrap{padding:0 20px;}
           .subnav-inner{padding:0 20px;}
-          .scheda-hero{min-height:54vh;}
-          .scheda-hero-content{padding:100px 0 36px;}
+          .scheda-hero{min-height:auto;}
+          .scheda-hero-content{padding:92px 0 22px;}
+          h1.scheda-title{font-size:clamp(32px,9vw,44px);}
+          .scheda-sub{font-size:15px;margin-bottom:18px;}
+          .hero-meta{max-width:100%;gap:12px 20px;}
           .listing-body{padding:36px 0 10px;}
           .spec-row{grid-template-columns:1fr;gap:3px;padding:16px 20px;}
           .spec-row dt{font-size:12px;letter-spacing:.06em;text-transform:uppercase;}
@@ -392,8 +396,6 @@ export default function SchedaTestarossa() {
           <div className="hero-meta">
             <div><small>Produzione</small><b>1984 — 1991</b></div>
             <div><small>Categoria</small><b>Coupé, motore centrale</b></div>
-            <div><small>Sostituisce</small><b>Berlinetta Boxer 512 BBi</b></div>
-            <div><small>Evoluzione</small><b>512 TR, F512 M</b></div>
           </div>
         </div>
       </header>
