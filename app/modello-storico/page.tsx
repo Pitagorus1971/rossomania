@@ -15,7 +15,7 @@ export default function SchedaTestarossa() {
     function onScroll() {
       const y = window.scrollY;
       const isMobile = window.matchMedia('(max-width:1080px)').matches;
-      const solid = isMobile || y > 56;
+      const solid = y > 56;
       nav?.classList.toggle('solid', solid);
       if (logo) logo.src = solid ? LOGO_LIGHT : LOGO_DARK;
       if (y > lastY && y > 420 && !document.body.classList.contains('lock')) nav?.classList.add('hidden');
@@ -139,24 +139,25 @@ export default function SchedaTestarossa() {
         .subnav a{flex-shrink:0;padding:15px 17px;font-size:14px;font-weight:600;letter-spacing:.04em;border-bottom:2px solid transparent;transition:color .2s,border-color .2s;}
         .subnav a:hover,.subnav a.active{color:#fff;border-bottom-color:var(--rosso);}
 
-        /* PAGE HEAD — variante hero scura, come testata di scheda editoriale */
-        .scheda-hero{position:relative;min-height:52vh;display:flex;align-items:flex-end;color:#fff;overflow:hidden;background:var(--ink);}
-        .scheda-hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 40%;}
-        .scheda-veil{position:absolute;inset:0;background:linear-gradient(180deg,rgba(12,14,18,.28) 0%,rgba(12,14,18,.5) 48%,rgba(12,14,18,.96) 100%);}
-        .scheda-hero-content{position:relative;z-index:2;padding:110px 0 38px;width:100%;}
-        .crumbs{display:flex;align-items:center;gap:8px;font-size:13px;color:rgba(250,248,244,.65);margin-bottom:14px;flex-wrap:wrap;}
+        /* PAGE HEAD — foto sopra a piena larghezza, testo sotto su sfondo scuro */
+        .scheda-hero{display:flex;flex-direction:column;color:#fff;background:var(--ink);}
+        .scheda-hero-photo{position:relative;width:100%;height:56vw;max-height:580px;min-height:280px;overflow:hidden;background:var(--ink);}
+        .scheda-hero-photo img{width:100%;height:100%;object-fit:cover;object-position:center 38%;}
+        .scheda-hero-photo-veil{position:absolute;inset:0;background:linear-gradient(180deg,rgba(12,14,18,0) 60%,rgba(12,14,18,.7) 100%);}
+        .scheda-hero-text{background:var(--ink);padding:36px 0 44px;}
+        .crumbs{display:flex;align-items:center;gap:8px;font-size:13px;color:rgba(250,248,244,.5);margin-bottom:16px;flex-wrap:wrap;}
         .crumbs a:hover{color:var(--rosso);}
-        .crumbs svg{opacity:.5;}
-        .scheda-kicker{display:flex;align-items:center;gap:12px;margin-bottom:12px;font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#fff;}
+        .crumbs svg{opacity:.35;}
+        .scheda-kicker{display:flex;align-items:center;gap:12px;margin-bottom:14px;font-size:11.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(250,248,244,.65);}
         .scheda-kicker::before{content:'';width:28px;height:1.5px;background:var(--rosso);}
-        h1.scheda-title{font-family:var(--display);font-size:clamp(38px,6.5vw,86px);font-weight:500;letter-spacing:-.02em;line-height:.98;margin-bottom:12px;}
+        h1.scheda-title{font-family:var(--display);font-size:clamp(36px,5vw,78px);font-weight:500;letter-spacing:-.02em;line-height:1.0;margin-bottom:14px;}
         h1.scheda-title em{font-style:italic;color:var(--rosso);}
-        .scheda-sub{max-width:560px;font-size:16px;color:rgba(250,248,244,.82);font-weight:300;line-height:1.55;margin-bottom:22px;}
-        /* Solo Produzione e Categoria — max 2 colonne, più compatto */
-        .hero-meta{display:grid;grid-template-columns:repeat(2,1fr);gap:14px 28px;border-top:1px solid rgba(255,255,255,.18);padding-top:16px;max-width:360px;}
-        .hero-meta div{display:flex;flex-direction:column;gap:4px;}
-        .hero-meta small{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(250,248,244,.5);}
-        .hero-meta b{font-family:var(--display);font-size:15px;font-weight:600;}
+        .scheda-sub{max-width:680px;font-size:17px;color:rgba(250,248,244,.72);font-weight:300;line-height:1.65;margin-bottom:28px;}
+        /* Produzione e Categoria — affiancati, no wrap */
+        .hero-meta{display:flex;flex-direction:row;gap:40px;border-top:1px solid rgba(255,255,255,.13);padding-top:20px;}
+        .hero-meta div{display:flex;flex-direction:column;gap:5px;}
+        .hero-meta small{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(250,248,244,.42);}
+        .hero-meta b{font-family:var(--display);font-size:15.5px;font-weight:600;white-space:nowrap;}
 
         /* BODY LAYOUT */
         .listing-body{padding:54px 0 30px;}
@@ -176,7 +177,6 @@ export default function SchedaTestarossa() {
         /* SECTION — identico pattern .sec/.sec-h di annuncio */
         .sec{margin-bottom:56px;scroll-margin-top:104px;}
         .sec-h{display:flex;align-items:baseline;gap:14px;margin-bottom:28px;}
-        .sec-h .idx{font-family:var(--display);font-style:italic;font-size:14px;color:var(--rosso);}
         .sec-h h2{font-family:var(--display);font-size:clamp(26px,3vw,34px);font-weight:500;letter-spacing:-.015em;}
         .sec-h h2 em{font-style:italic;color:var(--rosso);}
 
@@ -249,16 +249,16 @@ export default function SchedaTestarossa() {
         .car-img{position:relative;height:200px;overflow:hidden;background:var(--ink);}
         .car-img img{width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ease);}
         .car:hover .car-img img{transform:scale(1.06);}
-        .car-tags{position:absolute;top:12px;left:12px;display:flex;gap:6px;z-index:2;flex-wrap:wrap;}
-        .tag{font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:5px 10px;border-radius:100px;color:#fff;backdrop-filter:blur(6px);}
+        .car-tags{position:absolute;top:10px;left:10px;display:flex;gap:5px;z-index:2;flex-wrap:wrap;}
+        .tag{font-size:9.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:4px 9px;border-radius:100px;color:#fff;backdrop-filter:blur(6px);}
         .tag-r{background:rgba(225,24,39,.92);}
         .tag-g{background:rgba(31,164,99,.88);}
         .tag-k{background:rgba(12,14,18,.65);border:1px solid rgba(255,255,255,.25);}
         .car-body{padding:18px 18px 20px;}
-        .car-meta{display:flex;align-items:center;gap:7px;font-size:11.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--rosso);margin-bottom:7px;}
-        .car-meta i{font-style:normal;color:var(--line);}
+        .car-meta{display:flex;align-items:center;gap:6px;font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--rosso);margin-bottom:6px;white-space:nowrap;overflow:hidden;}
+        .car-meta i{font-style:normal;color:var(--line);flex-shrink:0;}
         .car-name{font-family:var(--display);font-size:22px;font-weight:500;letter-spacing:-.01em;color:var(--ink);line-height:1.1;margin-bottom:4px;}
-        .car-loc{font-size:13px;color:var(--mute);font-weight:400;margin-bottom:16px;}
+        .car-loc{font-size:12.5px;color:var(--mute);font-weight:400;margin-bottom:14px;line-height:1.4;}
         .car-divider{height:1px;background:var(--line);margin-bottom:16px;}
         .car-foot{display:flex;align-items:flex-end;justify-content:space-between;}
         .car-price small{display:block;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);font-weight:600;margin-bottom:2px;}
@@ -307,16 +307,18 @@ export default function SchedaTestarossa() {
           .collage-1{grid-template-columns:1fr;grid-auto-rows:300px;}
           .car-grid{grid-template-columns:1fr 1fr;}
           .foot-grid{grid-template-columns:1fr 1fr;}
-          .scheda-hero-content{padding-top:110px;}
+          .scheda-hero-photo{max-height:460px;}
+          .scheda-hero-text{padding:28px 0 36px;}
         }
         @media(max-width:640px){
           .wrap{padding:0 20px;}
           .subnav-inner{padding:0 20px;}
-          .scheda-hero{min-height:auto;}
-          .scheda-hero-content{padding:92px 0 22px;}
-          h1.scheda-title{font-size:clamp(32px,9vw,44px);}
-          .scheda-sub{font-size:15px;margin-bottom:18px;}
-          .hero-meta{max-width:100%;gap:12px 20px;}
+          .scheda-hero-photo{height:62vw;min-height:220px;max-height:380px;}
+          .scheda-hero-text{padding:24px 0 32px;}
+          h1.scheda-title{font-size:clamp(30px,8vw,42px);}
+          .scheda-sub{font-size:15px;line-height:1.5;margin-bottom:20px;}
+          .hero-meta{gap:24px;}
+          .hero-meta b{font-size:14px;}
           .listing-body{padding:36px 0 10px;}
           .spec-row{grid-template-columns:1fr;gap:3px;padding:16px 20px;}
           .spec-row dt{font-size:12px;letter-spacing:.06em;text-transform:uppercase;}
@@ -378,24 +380,30 @@ export default function SchedaTestarossa() {
         </div>
       </div>
 
-      {/* ===== HERO SCHEDA ===== */}
+      {/* ===== HERO SCHEDA: foto sopra a piena larghezza, testo sotto ===== */}
       <header className="scheda-hero">
-        <img src="https://www.welead.it/rossomania/img/foto1-laterale.jpeg" alt="Ferrari Testarossa" />
-        <div className="scheda-veil"></div>
-        <div className="wrap scheda-hero-content">
-          <div className="crumbs">
-            <a href="/">Home</a>
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6"/></svg>
-            <a href="/modelli">Schede ufficiali</a>
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6"/></svg>
-            <span>Testarossa</span>
-          </div>
-          <div className="scheda-kicker">Scheda ufficiale del modello</div>
-          <h1 className="scheda-title">Testa<em>rossa</em></h1>
-          <p className="scheda-sub">Coupé sportiva a motore centrale. L&apos;icona assoluta degli anni &apos;80: dodici cilindri boxer e le indimenticabili branchie laterali.</p>
-          <div className="hero-meta">
-            <div><small>Produzione</small><b>1984 — 1991</b></div>
-            <div><small>Categoria</small><b>Coupé, motore centrale</b></div>
+        {/* Zona foto — la macchina respira, nessun testo sovrapposto */}
+        <div className="scheda-hero-photo">
+          <img src="https://www.welead.it/rossomania/img/foto1-laterale.jpeg" alt="Ferrari Testarossa" />
+          <div className="scheda-hero-photo-veil"></div>
+        </div>
+        {/* Zona testo — sfondo scuro, tutto lo spazio per leggere */}
+        <div className="scheda-hero-text">
+          <div className="wrap">
+            <div className="crumbs">
+              <a href="/">Home</a>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6"/></svg>
+              <a href="/modello-storico">Schede ufficiali</a>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6"/></svg>
+              <span>Testarossa</span>
+            </div>
+            <div className="scheda-kicker">Scheda ufficiale del modello</div>
+            <h1 className="scheda-title">Testa<em>rossa</em></h1>
+            <p className="scheda-sub">Coupé sportiva a motore centrale. L&apos;icona assoluta degli anni &apos;80: dodici cilindri boxer e le indimenticabili branchie laterali.</p>
+            <div className="hero-meta">
+              <div><small>Produzione</small><b>1984 — 1991</b></div>
+              <div><small>Categoria</small><b>Coupé, motore centrale</b></div>
+            </div>
           </div>
         </div>
       </header>
@@ -418,7 +426,7 @@ export default function SchedaTestarossa() {
             <div>
 
               <div className="sec rv" id="storia">
-                <div className="sec-h"><span className="idx">(01)</span><h2>Storia e <em>design</em></h2></div>
+                <div className="sec-h"><h2>Storia e <em>design</em></h2></div>
                 <div className="desc">
                   <p><strong>Il nuovo modello che sostituisce la 512 BBi</strong> viene presentato al salone di Parigi nell&apos;ottobre del 1984 e suscita clamore ed entusiasmo. Disegnata dall&apos;Ing. Leonardo Fioravanti per Pininfarina, nasce per raccogliere l&apos;eredità delle Berlinetta Boxer e introduce una visione più moderna della granturismo Ferrari, unendo prestazioni elevate a una maggiore fruibilità su strada rispetto alle generazioni precedenti.</p>
                   <p>Il suo elemento più distintivo sono le <strong>ampie prese d&apos;aria laterali</strong>, soluzione tanto estetica quanto tecnica, studiata per ottimizzare il raffreddamento dei radiatori posizionati lateralmente — una scelta che contribuisce a definire una presenza su strada imponente, accentuata dalla larghezza fuori scala per l&apos;epoca. Lo stesso Fioravanti ha raccontato come il posteriore della Testarossa risulti volutamente &quot;esagerato&quot; dal punto di vista estetico, conseguenza diretta dei vincoli tecnici legati all&apos;architettura del motore.</p>
@@ -434,7 +442,7 @@ export default function SchedaTestarossa() {
               </div>
 
               <div className="sec rv" id="tecnica">
-                <div className="sec-h"><span className="idx">(02)</span><h2>Scheda <em>tecnica</em></h2></div>
+                <div className="sec-h"><h2>Scheda <em>tecnica</em></h2></div>
                 {specGroups.map((g, gi) => (
                   <div className={`spec-group${g.open ? ' open' : ''}`} key={gi}>
                     <div className="spec-head">
@@ -454,7 +462,7 @@ export default function SchedaTestarossa() {
               </div>
 
               <div className="sec rv" id="evoluzione">
-                <div className="sec-h"><span className="idx">(03)</span><h2>Evoluzione del <em>modello</em></h2></div>
+                <div className="sec-h"><h2>Evoluzione del <em>modello</em></h2></div>
                 <p style={{ fontSize: '16px', color: '#474D59', maxWidth: '700px', marginBottom: '32px' }}>Tre dettagli tecnici dividono nettamente la produzione e ne determinano oggi il valore di mercato: lo specchietto, il fissaggio ruote e la presenza del catalizzatore.</p>
                 <div className="timeline">
                   <div className="timeline-item">
@@ -494,7 +502,7 @@ export default function SchedaTestarossa() {
               </div>
 
               <div className="sec rv" id="mercato">
-                <div className="sec-h"><span className="idx">(04)</span><h2>Mercato e <em>quotazioni</em></h2></div>
+                <div className="sec-h"><h2>Mercato e <em>quotazioni</em></h2></div>
                 <div className="desc">
                   <p>Nel mercato collezionistico la Testarossa mantiene <strong>una posizione solida</strong>, con quotazioni che variano in base a stato, originalità e storico manutentivo — premiando in modo particolare gli esemplari conservati perfettamente e con basso chilometraggio.</p>
                 </div>
@@ -510,14 +518,14 @@ export default function SchedaTestarossa() {
 
               <div className="sec rv" id="annunci">
                 <div className="sec-head-row">
-                  <div className="sec-h" style={{ marginBottom: 0 }}><span className="idx">(05)</span><h2>Testarossa <em>in vendita</em></h2></div>
+                  <div className="sec-h" style={{ marginBottom: 0 }}><h2>Testarossa <em>in vendita</em></h2></div>
                   <a href="/catalogo" className="link-arrow">Vedi tutti gli annunci →</a>
                 </div>
                 <div className="car-grid">
                   {[
-                    { img: 'https://images.unsplash.com/photo-1696433919026-7da23fbf8707?auto=format&fit=crop&w=720&q=72', tags: [{ c: 'tag-r', t: 'In evidenza' }, { c: 'tag-g', t: 'Classiche' }], year: '1989', km: '42.000 km', engine: 'V12', name: 'Testarossa', loc: 'Modena, Italia — Storico verificato', price: '€ 145.000' },
-                    { img: 'https://images.unsplash.com/photo-1583356322642-da4d7fa7d39c?auto=format&fit=crop&w=720&q=72', tags: [{ c: 'tag-k', t: 'Dealer' }], year: '1986', km: '38.500 km', engine: 'V12', name: 'Testarossa Monospecchio', loc: 'Maranello, Italia — Conservata', price: '€ 189.000' },
-                    { img: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=720&q=72', tags: [{ c: 'tag-g', t: 'ASI' }], year: '1991', km: '51.200 km', engine: 'V12', name: 'Testarossa Catalitica', loc: 'Zurigo, Svizzera — Restaurata', price: '€ 132.000' },
+                    { img: 'https://www.welead.it/rossomania/img/foto1-laterale.jpeg', tags: [{ c: 'tag-r', t: 'In evidenza' }, { c: 'tag-g', t: 'Classiche' }], year: '1989', km: '42.000 km', engine: 'V12', name: 'Testarossa', loc: 'Modena, Italia', price: '€ 145.000' },
+                    { img: 'https://www.welead.it/rossomania/img/foto2-tre-quarti.jpeg', tags: [{ c: 'tag-k', t: 'Dealer' }], year: '1986', km: '38.500 km', engine: 'V12', name: 'Testarossa Monospecchio', loc: 'Maranello, Italia', price: '€ 189.000' },
+                    { img: 'https://www.welead.it/rossomania/img/foto3-dettaglio-scudetto.jpeg', tags: [{ c: 'tag-g', t: 'ASI' }], year: '1991', km: '51.200 km', engine: 'V12', name: 'Testarossa Catalitica', loc: 'Zurigo, Svizzera', price: '€ 132.000' },
                   ].map((car, i) => (
                     <a className="car" href="/annuncio" key={i}>
                       <div className="car-img">
