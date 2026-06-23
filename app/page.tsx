@@ -41,8 +41,10 @@ export default function Home() {
     // Header scroll
     const nav = navRef.current;
     const logo = document.getElementById('logoImg') as HTMLImageElement | null;
-    const LOGO_DARK = 'https://www.welead.it/rossomania/logo/logo_rw.png';
-    const LOGO_LIGHT = 'https://www.welead.it/rossomania/logo/logo_rn.png';
+    // Logo bianco (scritta bianca) per header scuro
+    const LOGO_DARK = 'https://www.welead.it/rossomania/logo/logo_rossomania.png';
+    // Logo con scritta nera per header chiaro (dopo scroll)
+    const LOGO_LIGHT = 'https://www.welead.it/rossomania/logo/logo-rossomania_scrittanera.png';
     let lastY = 0;
 
     function onScroll() {
@@ -160,21 +162,57 @@ export default function Home() {
         .wrap{max-width:1280px;margin:0 auto;padding:0 32px;}
         ::selection{background:var(--rosso);color:#fff;}
         .progress{position:fixed;top:0;left:0;height:2.5px;width:0;background:var(--rosso);z-index:300;}
-        header.nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(250,248,244,0);transition:background .35s var(--ease),box-shadow .35s var(--ease),transform .4s var(--ease);}
-        header.nav.solid{background:rgba(250,248,244,.92);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);box-shadow:0 1px 0 var(--line);}
+
+        /* ── HEADER ─────────────────────────────────────────── */
+        header.nav{
+          position:fixed;top:0;left:0;right:0;z-index:100;
+          background:transparent;
+          transition:background .35s var(--ease),box-shadow .35s var(--ease),transform .4s var(--ease);
+        }
+        header.nav.solid{
+          background:rgba(250,248,244,.92);
+          -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+          box-shadow:0 1px 0 var(--line);
+        }
         header.nav.hidden{transform:translateY(-100%);}
-        .nav-inner{display:flex;align-items:center;justify-content:space-between;height:86px;padding:0 40px;}
-        .brand-logo{display:block;height:52px;width:auto;transition:height .3s var(--ease);}
-        header.nav.solid .brand-logo{height:46px;}
+
+        .nav-inner{
+          display:flex;align-items:center;justify-content:space-between;
+          height:86px;padding:0 40px;
+        }
+
+        /* ── LOGO ───────────────────────────────────────────── */
+        /* Altezza fissa, larghezza automatica — il logo nuovo è orizzontale */
+        .brand-logo{
+          display:block;
+          height:180px;
+          width:auto;
+          transition:height .3s var(--ease), opacity .2s;
+        }
+        header.nav.solid .brand-logo{height:180px;}
+
+        /* ── MENU ───────────────────────────────────────────── */
         .menu{display:flex;gap:2px;}
-        .menu a{position:relative;padding:10px 16px;font-weight:500;font-size:14.5px;color:var(--ink);letter-spacing:.01em;}
-        .menu a::after{content:'';position:absolute;left:16px;right:16px;bottom:5px;height:1.5px;background:var(--rosso);transform:scaleX(0);transform-origin:right;transition:transform .35s var(--ease);}
+        .menu a{
+          position:relative;padding:10px 16px;
+          font-weight:500;font-size:14.5px;
+          color:var(--ink);letter-spacing:.01em;
+        }
+        .menu a::after{
+          content:'';position:absolute;left:16px;right:16px;bottom:5px;
+          height:1.5px;background:var(--rosso);
+          transform:scaleX(0);transform-origin:right;
+          transition:transform .35s var(--ease);
+        }
         .menu a:hover::after{transform:scaleX(1);transform-origin:left;}
+
+        /* Stato header SCURO (prima dello scroll): testo bianco */
         header.nav:not(.solid) .menu a{color:#fff;}
         header.nav:not(.solid) .lang-switch{color:rgba(255,255,255,.75);}
         header.nav:not(.solid) .lang-switch span{color:rgba(255,255,255,.3);}
         header.nav:not(.solid) .nav-login{color:#fff;}
         header.nav:not(.solid) .hamburger{color:#fff;}
+
         .nav-actions{display:flex;align-items:center;gap:18px;}
         .lang-switch{display:flex;align-items:center;gap:4px;font-size:13px;font-weight:600;color:var(--mute);}
         .lang-switch span{color:var(--line);}
@@ -182,8 +220,18 @@ export default function Home() {
         .lang-switch a.active{background:var(--rosso);color:#fff;}
         .nav-login{font-weight:500;font-size:14.5px;transition:color .2s;}
         .nav-login:hover{color:var(--rosso);}
-        .btn{position:relative;display:inline-flex;align-items:center;gap:9px;font-weight:600;font-size:14.5px;border:none;border-radius:100px;padding:13px 26px;overflow:hidden;transition:color .3s var(--ease),border-color .3s;isolation:isolate;}
-        .btn::before{content:'';position:absolute;inset:0;z-index:-1;border-radius:inherit;transform:translateY(101%);transition:transform .45s var(--ease-out);}
+
+        /* ── BOTTONI ────────────────────────────────────────── */
+        .btn{
+          position:relative;display:inline-flex;align-items:center;gap:9px;
+          font-weight:600;font-size:14.5px;border:none;border-radius:100px;
+          padding:13px 26px;overflow:hidden;
+          transition:color .3s var(--ease),border-color .3s;isolation:isolate;
+        }
+        .btn::before{
+          content:'';position:absolute;inset:0;z-index:-1;border-radius:inherit;
+          transform:translateY(101%);transition:transform .45s var(--ease-out);
+        }
         .btn:hover::before{transform:translateY(0);}
         .btn-rosso{background:var(--rosso);color:#fff;}
         .btn-rosso::before{background:var(--ink);}
@@ -195,48 +243,114 @@ export default function Home() {
         .btn-light{background:#fff;color:var(--ink);}
         .btn-light::before{background:var(--rosso);}
         .btn-light:hover{color:#fff;}
-        .hamburger{display:none;align-items:center;justify-content:center;background:none;border:none;padding:8px;color:var(--ink);}
+
+        /* ── HAMBURGER ──────────────────────────────────────── */
+        .hamburger{
+          display:none;align-items:center;justify-content:center;
+          background:none;border:none;padding:8px;color:var(--ink);
+        }
         .hamburger .ico-close{display:none;}
         .hamburger.open .ico-open{display:none;}
         .hamburger.open .ico-close{display:block;}
         .mobile-menu{display:none;}
-        .hero{position:relative;min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;color:#fff;overflow:hidden;background:var(--ink);}
+
+        /* ── HERO ───────────────────────────────────────────── */
+        .hero{
+          position:relative;min-height:100svh;
+          display:flex;flex-direction:column;justify-content:flex-end;
+          color:#fff;overflow:hidden;background:var(--ink);
+        }
         .hero-slides{position:absolute;inset:0;}
-        .hero-slide{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 55%;opacity:0;transition:opacity 1.4s ease;}
+        .hero-slide{
+          position:absolute;inset:0;width:100%;height:100%;
+          object-fit:cover;object-position:center 55%;
+          opacity:0;transition:opacity 1.4s ease;
+        }
         @keyframes kb{from{transform:scale(1.02)}to{transform:scale(1.11)}}
         .hero-slide.active{opacity:1;animation:kb 7s ease-out forwards;}
-        .hero-veil{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(12,14,18,.78) 0%,rgba(12,14,18,.25) 18%,transparent 30%),linear-gradient(to top,rgba(12,14,18,.92) 0%,rgba(12,14,18,.35) 38%,rgba(12,14,18,.15) 62%);}
+        .hero-veil{
+          position:absolute;inset:0;
+          background:
+            linear-gradient(to bottom,rgba(12,14,18,.78) 0%,rgba(12,14,18,.25) 18%,transparent 30%),
+            linear-gradient(to top,rgba(12,14,18,.92) 0%,rgba(12,14,18,.35) 38%,rgba(12,14,18,.15) 62%);
+        }
         .hero-content{position:relative;z-index:3;padding:0 0 56px;}
-        .hero-kicker{display:flex;align-items:center;gap:14px;margin-bottom:26px;font-size:15px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#fff;text-shadow:0 1px 14px rgba(0,0,0,.55);}
+        .hero-kicker{
+          display:flex;align-items:center;gap:14px;margin-bottom:26px;
+          font-size:15px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+          color:#fff;text-shadow:0 1px 14px rgba(0,0,0,.55);
+        }
         .hero-kicker::before{content:'';width:48px;height:1.5px;background:var(--rosso);}
-        .hero h1{font-family:var(--display);font-size:clamp(52px,8.2vw,116px);font-weight:500;line-height:.98;letter-spacing:-.02em;max-width:13ch;margin-bottom:30px;}
+        .hero h1{
+          font-family:var(--display);font-size:clamp(52px,8.2vw,116px);
+          font-weight:500;line-height:.98;letter-spacing:-.02em;
+          max-width:13ch;margin-bottom:30px;
+        }
         .hero h1 em{font-style:italic;color:#fff;font-weight:500;}
         .hero h1 .line{display:block;overflow:hidden;}
         .hero h1 .line > span{display:inline-block;transform:translateY(110%);transition:transform 1s var(--ease-out);}
         .hero.loaded h1 .line > span{transform:translateY(0);}
         .hero.loaded h1 .line:nth-child(2) > span{transition-delay:.12s;}
-        .hero-sub{max-width:480px;font-size:17px;font-weight:300;color:rgba(255,255,255,.82);margin-bottom:38px;opacity:0;transform:translateY(16px);transition:opacity .9s var(--ease) .45s,transform .9s var(--ease) .45s;}
+        .hero-sub{
+          max-width:480px;font-size:17px;font-weight:300;color:rgba(255,255,255,.82);
+          margin-bottom:38px;opacity:0;transform:translateY(16px);
+          transition:opacity .9s var(--ease) .45s,transform .9s var(--ease) .45s;
+        }
         .hero.loaded .hero-sub{opacity:1;transform:none;}
-        .hero-cta{display:flex;gap:14px;align-items:center;flex-wrap:wrap;opacity:0;transform:translateY(16px);transition:opacity .9s var(--ease) .6s,transform .9s var(--ease) .6s;}
+        .hero-cta{
+          display:flex;gap:14px;align-items:center;flex-wrap:wrap;
+          opacity:0;transform:translateY(16px);
+          transition:opacity .9s var(--ease) .6s,transform .9s var(--ease) .6s;
+        }
         .hero.loaded .hero-cta{opacity:1;transform:none;}
-        .hero-meta{position:relative;z-index:3;display:flex;align-items:center;justify-content:space-between;padding:26px 0 34px;border-top:1px solid rgba(255,255,255,.18);margin-top:50px;}
+        .hero-meta{
+          position:relative;z-index:3;
+          display:flex;align-items:center;justify-content:space-between;
+          padding:26px 0 34px;border-top:1px solid rgba(255,255,255,.18);margin-top:50px;
+        }
         .hero-count{font-family:var(--display);font-size:15px;letter-spacing:.06em;color:rgba(255,255,255,.85);}
         .hero-count b{font-weight:600;color:#fff;font-size:19px;}
         .hero-bars{display:flex;gap:8px;}
-        .hero-bar{width:54px;height:2.5px;background:rgba(255,255,255,.25);border:none;padding:0;position:relative;overflow:hidden;border-radius:2px;}
-        .hero-bar i{position:absolute;inset:0;background:var(--rosso);transform:scaleX(0);transform-origin:left;display:block;}
+        .hero-bar{
+          width:54px;height:2.5px;background:rgba(255,255,255,.25);
+          border:none;padding:0;position:relative;overflow:hidden;border-radius:2px;
+        }
+        .hero-bar i{
+          position:absolute;inset:0;background:var(--rosso);
+          transform:scaleX(0);transform-origin:left;display:block;
+        }
         .hero-bar.played i{transform:scaleX(1);}
         .hero-bar.active i{animation:fill 5.2s linear forwards;}
         @keyframes fill{from{transform:scaleX(0)}to{transform:scaleX(1)}}
-        .hero-scroll{position:absolute;right:40px;bottom:34px;z-index:4;display:flex;flex-direction:column;align-items:center;gap:10px;color:rgba(255,255,255,.6);font-size:10.5px;letter-spacing:.26em;text-transform:uppercase;writing-mode:vertical-rl;}
-        .hero-scroll::after{content:'';width:1.5px;height:44px;background:linear-gradient(var(--rosso),transparent);animation:drip 1.8s ease-in-out infinite;}
+        .hero-scroll{
+          position:absolute;right:40px;bottom:34px;z-index:4;
+          display:flex;flex-direction:column;align-items:center;gap:10px;
+          color:rgba(255,255,255,.6);font-size:10.5px;letter-spacing:.26em;
+          text-transform:uppercase;writing-mode:vertical-rl;
+        }
+        .hero-scroll::after{
+          content:'';width:1.5px;height:44px;
+          background:linear-gradient(var(--rosso),transparent);
+          animation:drip 1.8s ease-in-out infinite;
+        }
         @keyframes drip{0%,100%{opacity:.4;transform:scaleY(.6);transform-origin:top}50%{opacity:1;transform:scaleY(1)}}
-        .marquee{background:var(--ink);color:var(--paper);overflow:hidden;white-space:nowrap;padding:17px 0;border-top:1px solid rgba(255,255,255,.06);}
+
+        /* ── MARQUEE ─────────────────────────────────────────── */
+        .marquee{
+          background:var(--ink);color:var(--paper);overflow:hidden;
+          white-space:nowrap;padding:17px 0;border-top:1px solid rgba(255,255,255,.06);
+        }
         .marquee-track{display:inline-flex;gap:0;animation:scroll 36s linear infinite;}
         .marquee:hover .marquee-track{animation-play-state:paused;}
         @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-        .marquee span{font-family:var(--display);font-style:italic;font-size:17px;font-weight:500;letter-spacing:.02em;padding:0 28px;position:relative;color:rgba(250,248,244,.9);}
+        .marquee span{
+          font-family:var(--display);font-style:italic;font-size:17px;
+          font-weight:500;letter-spacing:.02em;padding:0 28px;position:relative;
+          color:rgba(250,248,244,.9);
+        }
         .marquee span::after{content:'·';position:absolute;right:-5px;color:var(--rosso);font-style:normal;}
+
+        /* ── SEZIONI ─────────────────────────────────────────── */
         section.block{padding:110px 0;position:relative;}
         .sec-label{display:flex;align-items:baseline;gap:20px;margin-bottom:54px;}
         .sec-index{font-family:var(--display);font-size:15px;font-style:italic;color:var(--rosso);flex-shrink:0;letter-spacing:.04em;}
@@ -244,7 +358,14 @@ export default function Home() {
         .sec-title em{font-style:italic;color:var(--rosso);}
         .sec-side{margin-left:auto;align-self:flex-end;}
         .sec-sub{color:var(--slate);font-size:16.5px;font-weight:300;max-width:520px;margin-top:18px;}
-        .ghost{position:absolute;top:36px;right:-10px;z-index:0;pointer-events:none;font-family:var(--display);font-size:clamp(160px,24vw,340px);font-weight:600;font-style:italic;color:transparent;-webkit-text-stroke:1px var(--line);line-height:1;user-select:none;}
+        .ghost{
+          position:absolute;top:36px;right:-10px;z-index:0;pointer-events:none;
+          font-family:var(--display);font-size:clamp(160px,24vw,340px);
+          font-weight:600;font-style:italic;color:transparent;
+          -webkit-text-stroke:1px var(--line);line-height:1;user-select:none;
+        }
+
+        /* ── SEARCH ──────────────────────────────────────────── */
         .search-zone{margin-top:-1px;background:var(--ink);padding:0 0 96px;}
         .search-card{background:#fff;border-radius:24px;padding:26px 26px 24px;box-shadow:0 36px 90px -34px rgba(0,0,0,.6);}
         .search-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:18px;gap:14px;flex-wrap:wrap;}
@@ -259,11 +380,21 @@ export default function Home() {
         .sfield select{width:100%;border:none;background:none;font-family:var(--body);font-size:15px;font-weight:400;color:var(--slate);outline:none;cursor:pointer;}
         .s-submit{display:flex;}
         .s-submit .btn{width:100%;justify-content:center;border-radius:16px;font-size:17.5px;font-weight:700;gap:10px;padding:0;}
+
+        /* ── MODELLI ─────────────────────────────────────────── */
         .models{position:relative;background:#fff;}
         .model-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;position:relative;z-index:2;}
-        .model-card{position:relative;background:#fff;border:1px solid var(--line);border-radius:18px;padding:30px 28px 26px;overflow:hidden;transition:transform .45s var(--ease),box-shadow .45s var(--ease),border-color .3s;}
+        .model-card{
+          position:relative;background:#fff;border:1px solid var(--line);
+          border-radius:18px;padding:30px 28px 26px;overflow:hidden;
+          transition:transform .45s var(--ease),box-shadow .45s var(--ease),border-color .3s;
+        }
         .model-card:hover{transform:translateY(-6px);box-shadow:0 24px 50px -22px rgba(12,14,18,.25);border-color:transparent;}
-        .model-card::after{content:'';position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--rosso);transform:scaleX(0);transform-origin:left;transition:transform .45s var(--ease);}
+        .model-card::after{
+          content:'';position:absolute;left:0;right:0;bottom:0;height:3px;
+          background:var(--rosso);transform:scaleX(0);transform-origin:left;
+          transition:transform .45s var(--ease);
+        }
         .model-card:hover::after{transform:scaleX(1);}
         .model-years{font-size:11.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--rosso);}
         .model-name{font-family:var(--display);font-size:30px;font-weight:500;letter-spacing:-.01em;line-height:1.05;margin:8px 0 6px;}
@@ -276,27 +407,47 @@ export default function Home() {
         .model-card.all .model-name{color:#fff;font-style:italic;}
         .model-card.all .model-cta{color:#fff;}
         .model-card.all:hover .model-cta{color:var(--rosso);}
+
+        /* ── LISTINGS ────────────────────────────────────────── */
         .listings{background:var(--ink);color:var(--paper);}
         .listings .sec-title{color:var(--paper);}
         .listings .ghost{-webkit-text-stroke-color:rgba(255,255,255,.07);}
         .filter-pills{display:flex;gap:10px;margin-bottom:46px;flex-wrap:wrap;}
-        .pill{padding:10px 22px;border-radius:100px;font-size:13px;font-weight:600;letter-spacing:.03em;background:transparent;color:rgba(250,248,244,.6);border:1px solid rgba(250,248,244,.2);transition:all .3s var(--ease);}
+        .pill{
+          padding:10px 22px;border-radius:100px;font-size:13px;font-weight:600;
+          letter-spacing:.03em;background:transparent;color:rgba(250,248,244,.6);
+          border:1px solid rgba(250,248,244,.2);transition:all .3s var(--ease);
+        }
         .pill:hover{border-color:rgba(250,248,244,.5);color:var(--paper);}
         .pill.active{background:var(--rosso);border-color:var(--rosso);color:#fff;}
         .car-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
-        .car{position:relative;background:var(--ink-2);border-radius:18px;overflow:hidden;border:1px solid rgba(255,255,255,.07);transition:transform .5s var(--ease),border-color .35s;}
+        .car{
+          position:relative;background:var(--ink-2);border-radius:18px;overflow:hidden;
+          border:1px solid rgba(255,255,255,.07);transition:transform .5s var(--ease),border-color .35s;
+        }
         .car:hover{transform:translateY(-7px);border-color:rgba(255,255,255,.18);}
         .car-img{position:relative;height:230px;overflow:hidden;}
         .car-img img{width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ease);}
         .car:hover .car-img img{transform:scale(1.07);}
-        .car-img::after{content:'';position:absolute;top:0;bottom:0;left:-80%;width:50%;background:linear-gradient(105deg,transparent,rgba(255,255,255,.16),transparent);transform:skewX(-18deg);transition:left .7s var(--ease);}
+        .car-img::after{
+          content:'';position:absolute;top:0;bottom:0;left:-80%;width:50%;
+          background:linear-gradient(105deg,transparent,rgba(255,255,255,.16),transparent);
+          transform:skewX(-18deg);transition:left .7s var(--ease);
+        }
         .car:hover .car-img::after{left:130%;}
         .car-tags{position:absolute;top:14px;left:14px;display:flex;gap:7px;z-index:2;}
         .tag{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:5px 11px;border-radius:100px;color:#fff;backdrop-filter:blur(6px);}
         .tag-r{background:rgba(225,24,39,.92);}
         .tag-g{background:rgba(31,164,99,.88);}
         .tag-k{background:rgba(12,14,18,.65);border:1px solid rgba(255,255,255,.25);}
-        .car-save{position:absolute;top:12px;right:12px;z-index:2;width:38px;height:38px;border-radius:50%;background:rgba(12,14,18,.5);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.22);display:flex;align-items:center;justify-content:center;color:#fff;transition:background .25s,transform .25s;}
+        .car-save{
+          position:absolute;top:12px;right:12px;z-index:2;
+          width:38px;height:38px;border-radius:50%;
+          background:rgba(12,14,18,.5);backdrop-filter:blur(6px);
+          border:1px solid rgba(255,255,255,.22);
+          display:flex;align-items:center;justify-content:center;
+          color:#fff;transition:background .25s,transform .25s;
+        }
         .car-save:hover{transform:scale(1.1);background:rgba(12,14,18,.75);}
         .car-save.on{background:var(--rosso);border-color:var(--rosso);}
         .car-save.on svg{fill:#fff;}
@@ -309,9 +460,16 @@ export default function Home() {
         .car-foot{display:flex;align-items:flex-end;justify-content:space-between;}
         .car-price small{display:block;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:rgba(250,248,244,.45);font-weight:600;margin-bottom:2px;}
         .car-price b{font-family:var(--display);font-size:26px;font-weight:600;letter-spacing:-.01em;color:var(--paper);}
-        .car-go{width:46px;height:46px;border-radius:50%;border:1.5px solid rgba(250,248,244,.3);display:flex;align-items:center;justify-content:center;color:var(--paper);transition:all .35s var(--ease);}
+        .car-go{
+          width:46px;height:46px;border-radius:50%;
+          border:1.5px solid rgba(250,248,244,.3);
+          display:flex;align-items:center;justify-content:center;
+          color:var(--paper);transition:all .35s var(--ease);
+        }
         .car:hover .car-go{background:var(--rosso);border-color:var(--rosso);transform:rotate(-38deg);}
         .listings-more{text-align:center;margin-top:54px;}
+
+        /* ── AI VALUATION ────────────────────────────────────── */
         .ai{position:relative;overflow:hidden;background:#fff;}
         .ai-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;position:relative;z-index:2;}
         .ai-eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:12px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--rosso);margin-bottom:20px;}
@@ -322,8 +480,15 @@ export default function Home() {
         .ai-points{margin:26px 0 34px;display:flex;flex-direction:column;gap:13px;}
         .ai-point{display:flex;gap:13px;align-items:flex-start;font-size:15px;color:var(--ink-2);}
         .ai-point svg{flex-shrink:0;margin-top:3px;color:var(--rosso);}
-        .report{position:relative;background:var(--ink);color:var(--paper);border-radius:24px;padding:30px 30px 26px;box-shadow:0 44px 100px -38px rgba(12,14,18,.6);overflow:hidden;}
-        .report::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(460px 220px at 88% -8%,rgba(225,24,39,.38),transparent 70%);}
+        .report{
+          position:relative;background:var(--ink);color:var(--paper);
+          border-radius:24px;padding:30px 30px 26px;
+          box-shadow:0 44px 100px -38px rgba(12,14,18,.6);overflow:hidden;
+        }
+        .report::before{
+          content:'';position:absolute;inset:0;pointer-events:none;
+          background:radial-gradient(460px 220px at 88% -8%,rgba(225,24,39,.38),transparent 70%);
+        }
         .report > *{position:relative;}
         .report-head{display:flex;align-items:center;gap:10px;font-size:11.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:rgba(250,248,244,.6);}
         .ai-dot{width:8px;height:8px;border-radius:50%;background:#46E08C;animation:pulse 2.2s infinite;}
@@ -337,13 +502,28 @@ export default function Home() {
         .report-price b{font-family:var(--display);font-size:clamp(40px,4.6vw,54px);font-weight:600;letter-spacing:-.02em;line-height:1;display:block;}
         .report-range{margin:24px 0 4px;}
         .range-track{position:relative;height:10px;border-radius:6px;background:rgba(255,255,255,.13);}
-        .range-zone{position:absolute;top:0;bottom:0;left:34%;width:36%;border-radius:6px;background:rgba(225,24,39,.5);transform:scaleX(0);transform-origin:left;transition:transform 1s var(--ease-out) .25s;}
+        .range-zone{
+          position:absolute;top:0;bottom:0;left:34%;width:36%;border-radius:6px;
+          background:rgba(225,24,39,.5);transform:scaleX(0);transform-origin:left;
+          transition:transform 1s var(--ease-out) .25s;
+        }
         .report.in .range-zone{transform:scaleX(1);}
-        .range-marker{position:absolute;top:50%;left:4%;width:22px;height:22px;border-radius:50%;background:var(--paper);border:5.5px solid var(--rosso);transform:translate(-50%,-50%);transition:left 1.5s var(--ease-out) .35s;box-shadow:0 4px 16px rgba(0,0,0,.45);}
+        .range-marker{
+          position:absolute;top:50%;left:4%;width:22px;height:22px;
+          border-radius:50%;background:var(--paper);border:5.5px solid var(--rosso);
+          transform:translate(-50%,-50%);
+          transition:left 1.5s var(--ease-out) .35s;
+          box-shadow:0 4px 16px rgba(0,0,0,.45);
+        }
         .report.in .range-marker{left:52%;}
         .range-labels{display:flex;justify-content:space-between;font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(250,248,244,.45);margin-top:11px;}
         .report-factors{display:flex;flex-wrap:wrap;gap:8px;margin:22px 0 0;}
-        .factor{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;padding:8px 14px;border-radius:100px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.05);opacity:0;transform:translateY(10px);transition:opacity .55s var(--ease),transform .55s var(--ease);}
+        .factor{
+          display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;
+          padding:8px 14px;border-radius:100px;border:1px solid rgba(255,255,255,.15);
+          background:rgba(255,255,255,.05);opacity:0;transform:translateY(10px);
+          transition:opacity .55s var(--ease),transform .55s var(--ease);
+        }
         .report.in .factor{opacity:1;transform:none;}
         .report .factor:nth-child(1){transition-delay:.55s;}
         .report .factor:nth-child(2){transition-delay:.72s;}
@@ -351,11 +531,19 @@ export default function Home() {
         .factor b{font-weight:800;}
         .factor.up b{color:#46E08C;}
         .factor.down b{color:#FF7A86;}
-        .report-verdict{margin-top:24px;padding-top:19px;border-top:1px solid rgba(255,255,255,.11);display:flex;align-items:center;gap:11px;font-size:14.5px;font-weight:500;color:rgba(250,248,244,.75);}
+        .report-verdict{
+          margin-top:24px;padding-top:19px;border-top:1px solid rgba(255,255,255,.11);
+          display:flex;align-items:center;gap:11px;font-size:14.5px;font-weight:500;color:rgba(250,248,244,.75);
+        }
         .report-verdict svg{color:#46E08C;flex-shrink:0;}
         .report-verdict em{font-family:var(--display);font-style:italic;font-weight:500;color:#46E08C;font-size:17.5px;}
+
+        /* ── COME FUNZIONA ───────────────────────────────────── */
         .how{padding:84px 0;}
-        .how-box{background:#fff;border:1px solid var(--line);border-radius:24px;padding:40px 44px;display:grid;grid-template-columns:auto 1fr;gap:50px;align-items:center;}
+        .how-box{
+          background:#fff;border:1px solid var(--line);border-radius:24px;
+          padding:40px 44px;display:grid;grid-template-columns:auto 1fr;gap:50px;align-items:center;
+        }
         .how-box .sec-index{display:block;margin-bottom:8px;}
         .how-box .sec-title{font-size:clamp(28px,3vw,40px);}
         .how-steps{display:grid;grid-template-columns:repeat(3,1fr);}
@@ -365,39 +553,72 @@ export default function Home() {
         .hstep b{font-family:var(--display);font-style:italic;font-size:27px;font-weight:500;color:var(--rosso);line-height:1.05;}
         .hstep h4{font-family:var(--display);font-size:19.5px;font-weight:600;margin-bottom:3px;letter-spacing:-.01em;}
         .hstep p{font-size:13.5px;font-weight:300;color:var(--slate);line-height:1.5;}
+
+        /* ── CTA ─────────────────────────────────────────────── */
         .cta-zone{padding:110px 0;}
         .cta{position:relative;border-radius:26px;overflow:hidden;background:var(--ink);padding:90px 70px;color:#fff;}
         .cta-bg{position:absolute;inset:0;}
         .cta-bg img{width:100%;height:100%;object-fit:cover;opacity:.34;}
-        .cta-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(100deg,rgba(12,14,18,.94) 20%,rgba(163,13,26,.55) 100%);}
+        .cta-bg::after{
+          content:'';position:absolute;inset:0;
+          background:linear-gradient(100deg,rgba(12,14,18,.94) 20%,rgba(163,13,26,.55) 100%);
+        }
         .cta-inner{position:relative;z-index:2;max-width:640px;}
         .cta h2{font-family:var(--display);font-size:clamp(38px,5vw,64px);font-weight:500;line-height:1.0;letter-spacing:-.02em;margin-bottom:22px;}
         .cta h2 em{font-style:italic;color:var(--rosso);}
         .cta p{font-size:17px;font-weight:300;color:rgba(255,255,255,.8);margin-bottom:36px;max-width:480px;}
         .cta-row{display:flex;gap:14px;flex-wrap:wrap;}
+
+        /* ── FOOTER ──────────────────────────────────────────── */
         footer.site{background:var(--ink);color:rgba(250,248,244,.7);padding:80px 0 0;}
-        .foot-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:48px;padding-bottom:60px;border-bottom:1px solid rgba(255,255,255,.09);}
-        .foot-brand img{height:46px;width:auto;margin-bottom:20px;}
+        .foot-grid{
+          display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:48px;
+          padding-bottom:60px;border-bottom:1px solid rgba(255,255,255,.09);
+        }
+        .foot-brand img{height:120px;width:auto;margin-bottom:20px;}
         .foot-brand p{font-size:14px;font-weight:300;color:rgba(250,248,244,.55);max-width:300px;}
         .foot-social{display:flex;gap:10px;margin-top:22px;}
-        .foot-social a{width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;transition:all .3s var(--ease);}
+        .foot-social a{
+          width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,255,255,.18);
+          display:flex;align-items:center;justify-content:center;
+          transition:all .3s var(--ease);
+        }
         .foot-social a:hover{background:var(--rosso);border-color:var(--rosso);transform:translateY(-3px);}
         .foot-col h5{font-family:var(--display);font-style:italic;font-size:17px;font-weight:500;color:var(--paper);margin-bottom:20px;}
         .foot-col a{display:block;font-size:14px;padding:5.5px 0;color:rgba(250,248,244,.55);transition:color .2s,padding-left .25s var(--ease);}
         .foot-col a:hover{color:#fff;padding-left:6px;}
-        .foot-bottom{display:flex;justify-content:space-between;align-items:center;padding:26px 0;font-size:13px;color:rgba(250,248,244,.4);flex-wrap:wrap;gap:14px;}
+        .foot-bottom{
+          display:flex;justify-content:space-between;align-items:center;
+          padding:26px 0;font-size:13px;color:rgba(250,248,244,.4);flex-wrap:wrap;gap:14px;
+        }
         footer.site .lang-switch{color:rgba(250,248,244,.55);}
         footer.site .lang-switch span{color:rgba(255,255,255,.15);}
+
+        /* ── REVEAL ──────────────────────────────────────────── */
         .rv{opacity:0;transform:translateY(34px);filter:blur(5px);transition:opacity .9s var(--ease),transform .9s var(--ease),filter .9s var(--ease);}
         .rv.in{opacity:1;transform:none;filter:none;}
+
+        /* ── RESPONSIVE ──────────────────────────────────────── */
         @media(max-width:1080px){
           .menu,.nav-actions{display:none;}
           .hamburger{display:flex;}
           .nav-inner{height:72px;padding:0 22px;}
-          .brand-logo{height:44px;}
-          .mobile-menu{display:flex;flex-direction:column;position:fixed;top:72px;left:0;right:0;height:calc(100dvh - 72px);background:var(--paper);z-index:95;padding:10px 0 30px;overflow-y:auto;opacity:0;transform:translateY(-10px);pointer-events:none;transition:opacity .25s var(--ease),transform .25s var(--ease);}
+          .brand-logo{height:120px;}
+          header.nav.solid .brand-logo{height:120px;}
+          .mobile-menu{
+            display:flex;flex-direction:column;
+            position:fixed;top:72px;left:0;right:0;
+            height:calc(100dvh - 72px);background:var(--paper);z-index:95;
+            padding:10px 0 30px;overflow-y:auto;
+            opacity:0;transform:translateY(-10px);pointer-events:none;
+            transition:opacity .25s var(--ease),transform .25s var(--ease);
+          }
           .mobile-menu.open{opacity:1;transform:none;pointer-events:auto;}
-          .mobile-menu > a{font-family:var(--display);font-size:26px;font-weight:500;padding:19px 26px;border-bottom:1px solid var(--line);color:var(--ink);display:flex;justify-content:space-between;align-items:center;}
+          .mobile-menu > a{
+            font-family:var(--display);font-size:26px;font-weight:500;
+            padding:19px 26px;border-bottom:1px solid var(--line);
+            color:var(--ink);display:flex;justify-content:space-between;align-items:center;
+          }
           .mobile-menu > a::after{content:'→';font-size:18px;color:var(--rosso);}
           .mobile-foot{padding:24px 26px 0;display:flex;flex-direction:column;gap:18px;}
           body.lock{overflow:hidden;}
@@ -440,9 +661,18 @@ export default function Home() {
 
       <div className="progress" id="progress"></div>
 
+      {/* ── HEADER ── */}
       <header className="nav" id="nav" ref={navRef}>
         <div className="nav-inner">
-          <a href="#" aria-label="Rosso Mania"><img className="brand-logo" alt="Rosso Mania" src="https://www.welead.it/rossomania/logo/logo_rn.png" id="logoImg" /></a>
+          <a href="#" aria-label="Rossomania">
+            {/* Logo bianco all'apertura (header scuro), poi js lo swappa col nero al primo scroll */}
+            <img
+              className="brand-logo"
+              alt="Rossomania"
+              src="https://www.welead.it/rossomania/logo/logo_rossomania.png"
+              id="logoImg"
+            />
+          </a>
           <nav className="menu">
             <a href="#listings">Vetture in vendita</a>
             <a href="#models">Schede ufficiali</a>
@@ -451,17 +681,24 @@ export default function Home() {
             <a href="#magazine">Magazine</a>
           </nav>
           <div className="nav-actions">
-            <div className="lang-switch"><a href="#" className="active">IT</a><span>/</span><a href="#">EN</a></div>
+            <div className="lang-switch">
+              <a href="#" className="active">IT</a><span>/</span><a href="#">EN</a>
+            </div>
             <a href="#" className="nav-login">Accedi</a>
             <button className="btn btn-rosso">Vendi</button>
           </div>
           <button className="hamburger" id="navToggle" aria-label="Apri menu" aria-expanded="false">
-            <svg className="ico-open" width="27" height="27" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/></svg>
-            <svg className="ico-close" width="27" height="27" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg>
+            <svg className="ico-open" width="27" height="27" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+              <line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/>
+            </svg>
+            <svg className="ico-close" width="27" height="27" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+              <line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/>
+            </svg>
           </button>
         </div>
       </header>
 
+      {/* ── MOBILE MENU ── */}
       <div className="mobile-menu" id="mobileMenu">
         <a href="#listings">Vetture in vendita</a>
         <a href="#models">Schede ufficiali</a>
@@ -475,6 +712,7 @@ export default function Home() {
         </div>
       </div>
 
+      {/* ── HERO ── */}
       <section className="hero" id="hero" ref={heroRef}>
         <div className="hero-slides" id="heroSlides">
           <img className="hero-slide active" src="https://www.welead.it/rossomania/img/foto1.jpeg" alt="" />
@@ -483,7 +721,7 @@ export default function Home() {
         </div>
         <div className="hero-veil"></div>
         <div className="wrap hero-content" id="heroContent">
-          <div className="hero-kicker">Il marketplace delle Ferrari d&apos;epoca</div>
+          <div className="hero-kicker">Il marketplace delle Ferrari usate e d&apos;epoca</div>
           <h1>
             <span className="line"><span>La passione</span></span>
             <span className="line"><span>ha un <em>colore.</em></span></span>
@@ -505,6 +743,7 @@ export default function Home() {
         <div className="hero-scroll">Scorri</div>
       </section>
 
+      {/* ── MARQUEE ── */}
       <div className="marquee" aria-hidden="true">
         <div className="marquee-track">
           <span>Testarossa</span><span>250 GT</span><span>Dino 246</span><span>F40</span><span>365 Daytona</span><span>308 GTB</span><span>288 GTO</span><span>512 BB</span><span>328 GTS</span><span>275 GTB</span>
@@ -512,6 +751,7 @@ export default function Home() {
         </div>
       </div>
 
+      {/* ── SEARCH ── */}
       <div className="search-zone">
         <div className="wrap">
           <div className="search-card rv">
@@ -520,16 +760,34 @@ export default function Home() {
               <span>Ricerca tra le vetture in vendita</span>
             </div>
             <div className="search-grid">
-              <div className="sfield"><label>Modello</label><select><option>Tutti i modelli</option><option>Testarossa</option><option>308 GTB</option><option>Dino 246 GT</option><option>365 GTB/4 Daytona</option><option>250 GT</option><option>F40</option></select></div>
-              <div className="sfield"><label>Anno (da)</label><select><option>Indifferente</option><option>1950</option><option>1960</option><option>1970</option><option>1980</option><option>1990</option></select></div>
-              <div className="sfield"><label>Prezzo max</label><select><option>Indifferente</option><option>€ 100.000</option><option>€ 250.000</option><option>€ 500.000</option><option>€ 1.000.000+</option></select></div>
-              <div className="sfield"><label>Paese</label><select><option>Tutti i paesi</option><option>Italia</option><option>Germania</option><option>Regno Unito</option><option>Svizzera</option><option>USA</option></select></div>
-              <div className="s-submit"><button className="btn btn-rosso"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Cerca</button></div>
+              <div className="sfield">
+                <label>Modello</label>
+                <select><option>Tutti i modelli</option><option>Testarossa</option><option>308 GTB</option><option>Dino 246 GT</option><option>365 GTB/4 Daytona</option><option>250 GT</option><option>F40</option></select>
+              </div>
+              <div className="sfield">
+                <label>Anno (da)</label>
+                <select><option>Indifferente</option><option>1950</option><option>1960</option><option>1970</option><option>1980</option><option>1990</option></select>
+              </div>
+              <div className="sfield">
+                <label>Prezzo max</label>
+                <select><option>Indifferente</option><option>€ 100.000</option><option>€ 250.000</option><option>€ 500.000</option><option>€ 1.000.000+</option></select>
+              </div>
+              <div className="sfield">
+                <label>Paese</label>
+                <select><option>Tutti i paesi</option><option>Italia</option><option>Germania</option><option>Regno Unito</option><option>Svizzera</option><option>USA</option></select>
+              </div>
+              <div className="s-submit">
+                <button className="btn btn-rosso">
+                  <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                  Cerca
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
+      {/* ── MODELLI ── */}
       <section className="block models" id="models">
         <div className="ghost">01</div>
         <div className="wrap">
@@ -553,18 +811,25 @@ export default function Home() {
                 <div className="model-years">{m.years}</div>
                 <h3 className="model-name">{m.name}</h3>
                 <p className="model-desc">{m.desc}</p>
-                <a href="#" className="model-cta">Scopri la scheda <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+                <a href="#" className="model-cta">
+                  Scopri la scheda
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                </a>
               </div>
             ))}
             <div className="model-card all rv">
               <h3 className="model-name">Tutti i modelli</h3>
-              <p className="model-desc" style={{color:'rgba(250,248,244,.6)'}}>L&apos;archivio completo delle Ferrari d&apos;epoca, da sfogliare per serie e decennio.</p>
-              <a href="#" className="model-cta">Vai all&apos;archivio <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+              <p className="model-desc" style={{color:'rgba(250,248,244,.6)'}}>L&apos;archivio completo delle Ferrari usate e d&apos;epoca, da sfogliare per serie e decennio.</p>
+              <a href="#" className="model-cta">
+                Vai all&apos;archivio
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </a>
             </div>
           </div>
         </div>
       </section>
 
+      {/* ── LISTINGS ── */}
       <section className="block listings" id="listings">
         <div className="ghost">02</div>
         <div className="wrap">
@@ -601,7 +866,9 @@ export default function Home() {
                   <div className="car-divider"></div>
                   <div className="car-foot">
                     <div className="car-price"><small>Prezzo</small><b>{car.price}</b></div>
-                    <a href="#" className="car-go" aria-label="Dettagli"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+                    <a href="#" className="car-go" aria-label="Dettagli">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                    </a>
                   </div>
                 </div>
               </article>
@@ -613,6 +880,7 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ── AI VALUATION ── */}
       <section className="block ai" id="ai">
         <div className="ghost">03</div>
         <div className="wrap">
@@ -623,9 +891,18 @@ export default function Home() {
               <p>Inserisci le variabili della tua vettura — originalità, carrozzeria, interni, manutenzione, certificazioni — e l&apos;intelligenza artificiale le confronta con le quotazioni reali del mercato.</p>
               <p>In pochi minuti sai se il prezzo a cui vuoi vendere o comprare una Ferrari è coerente, ottimista o un&apos;occasione.</p>
               <div className="ai-points">
-                <div className="ai-point"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4"><polyline points="20 6 9 17 4 12"/></svg> Fascia di valore con prezzo target consigliato</div>
-                <div className="ai-point"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4"><polyline points="20 6 9 17 4 12"/></svg> Analisi dei fattori che alzano o abbassano il valore</div>
-                <div className="ai-point"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4"><polyline points="20 6 9 17 4 12"/></svg> Report esportabile in PDF e condivisibile</div>
+                <div className="ai-point">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4"><polyline points="20 6 9 17 4 12"/></svg>
+                  Fascia di valore con prezzo target consigliato
+                </div>
+                <div className="ai-point">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4"><polyline points="20 6 9 17 4 12"/></svg>
+                  Analisi dei fattori che alzano o abbassano il valore
+                </div>
+                <div className="ai-point">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4"><polyline points="20 6 9 17 4 12"/></svg>
+                  Report esportabile in PDF e condivisibile
+                </div>
               </div>
               <a href="#" className="btn btn-ink" style={{padding:'15px 32px'}}>Valuta ora la tua vettura</a>
             </div>
@@ -651,6 +928,7 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ── COME FUNZIONA ── */}
       <section className="block how" id="come-funziona">
         <div className="wrap">
           <div className="how-box rv">
@@ -667,6 +945,7 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ── CTA BANNER ── */}
       <div className="cta-zone">
         <div className="wrap">
           <div className="cta rv">
@@ -683,16 +962,24 @@ export default function Home() {
         </div>
       </div>
 
+      {/* ── FOOTER ── */}
       <footer className="site">
         <div className="wrap">
           <div className="foot-grid">
             <div className="foot-brand">
-              <img src="https://www.welead.it/rossomania/logo/logo_rw.png" alt="Rosso Mania" />
-              <p>Il marketplace verticale dedicato alle Ferrari d&apos;epoca. Da appassionati, per appassionati.</p>
+              {/* Nel footer usiamo sempre il logo con scritta bianca (sfondo scuro) */}
+              <img src="https://www.welead.it/rossomania/logo/logo_rossomania.png" alt="Rossomania" />
+              <p>Il marketplace verticale dedicato alle Ferrari usate e d&apos;epoca. Da appassionati, per appassionati.</p>
               <div className="foot-social">
-                <a href="#" aria-label="Facebook"><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a>
-                <a href="#" aria-label="Instagram"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>
-                <a href="#" aria-label="YouTube"><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M22.5 6.4a2.8 2.8 0 00-2-2C18.8 4 12 4 12 4s-6.8 0-8.5.4a2.8 2.8 0 00-2 2A29 29 0 001 12a29 29 0 00.5 5.6 2.8 2.8 0 002 2C5.2 20 12 20 12 20s6.8 0 8.5-.4a2.8 2.8 0 002-2A29 29 0 0023 12a29 29 0 00-.5-5.6zM10 15V9l5 3z"/></svg></a>
+                <a href="#" aria-label="Facebook">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+                </a>
+                <a href="#" aria-label="Instagram">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+                </a>
+                <a href="#" aria-label="YouTube">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M22.5 6.4a2.8 2.8 0 00-2-2C18.8 4 12 4 12 4s-6.8 0-8.5.4a2.8 2.8 0 00-2 2A29 29 0 001 12a29 29 0 00.5 5.6 2.8 2.8 0 002 2C5.2 20 12 20 12 20s6.8 0 8.5-.4a2.8 2.8 0 002-2A29 29 0 0023 12a29 29 0 00-.5-5.6zM10 15V9l5 3z"/></svg>
+                </a>
               </div>
             </div>
             <div className="foot-col">
@@ -710,7 +997,7 @@ export default function Home() {
               <a href="#">Accedi</a>
             </div>
             <div className="foot-col">
-              <h5>Rosso Mania</h5>
+              <h5>Rossomania</h5>
               <a href="#">Chi siamo</a>
               <a href="#">Contatti</a>
               <a href="#">Privacy policy</a>
@@ -718,7 +1005,7 @@ export default function Home() {
             </div>
           </div>
           <div className="foot-bottom">
-            <span>© 2026 Rosso Mania. Tutti i diritti riservati.</span>
+            <span>© 2026 Rossomania. Tutti i diritti riservati.</span>
             <div className="lang-switch"><a href="#" className="active">IT</a><span>/</span><a href="#">EN</a></div>
             <span>Realizzato da Welead srl</span>
           </div>
